@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.annotation.JsonAppend;
 import hello.hellospring.domain.Member;
 import hello.hellospring.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,8 +38,8 @@ public class MemberController {
     }
 
     @GetMapping("/members")
-    public String list(Model model) {
-        List<Member> members = memberService.findMembers();
+    public String list(Model model, Pageable pageable) {
+        List<Member> members = memberService.findMembers(pageable).toList();
         model.addAttribute("members", members);
         return "members/memberList";
     }
